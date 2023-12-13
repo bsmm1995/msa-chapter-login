@@ -17,7 +17,8 @@ import java.util.stream.Collectors;
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    //@Mapping(target = "id", expression = "java(UUID.randomUUID().toString())")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "isActive", constant = "true")
     User toEntity(UserSignup dto);
 
     @Mapping(target = "roles", source = "roles", qualifiedByName = "mapRoles")

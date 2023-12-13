@@ -69,10 +69,8 @@ public class UserServiceImpl implements UserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error: Email is already in use!");
         }
 
-        User user = new User(dto.getUsername(), dto.getEmail(), encoder.encode(dto.getPassword()));
-
-        user.setRoles(dto.getRoles());
-        user.setIsActive(Boolean.TRUE);
+        User user = UserMapper.INSTANCE.toEntity(dto);
+        user.setPassword(encoder.encode(dto.getPassword()));
 
         return UserMapper.INSTANCE.toDto(userRepository.save(user));
     }
