@@ -1,6 +1,6 @@
 package com.bsmm.login.service.dto;
 
-import com.bsmm.login.models.Role;
+import com.bsmm.login.models.enums.ERole;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -20,7 +20,7 @@ public class UserSignup implements Serializable {
 
     @NotNull
     @NotEmpty
-    private Set<Role> roles;
+    private Set<ERole> roles;
 
     @NotBlank
     @Size(min = 6, max = 40)

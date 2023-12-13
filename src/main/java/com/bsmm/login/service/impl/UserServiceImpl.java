@@ -1,7 +1,10 @@
 package com.bsmm.login.service.impl;
 
 import com.bsmm.login.config.JwtUtils;
+import com.bsmm.login.models.Role;
 import com.bsmm.login.models.User;
+import com.bsmm.login.models.enums.ERole;
+import com.bsmm.login.repository.RoleRepository;
 import com.bsmm.login.repository.UserRepository;
 import com.bsmm.login.service.UserService;
 import com.bsmm.login.service.dto.LoginRequest;
@@ -21,13 +24,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
     private final AuthenticationManager authenticationManager;
     private final UserDetailsServiceImpl userDetailsService;
@@ -73,7 +80,16 @@ public class UserServiceImpl implements UserService {
 
         User user = UserMapper.INSTANCE.toEntity(dto);
         user.setPassword(encoder.encode(dto.getPassword()));
-
+        user.setRoles(getUserRoles(dto.getRoles()));
         return UserMapper.INSTANCE.toDto(userRepository.save(user));
+    }
+
+    private Set<Role> getUserRoles(Set<ERole> roles) {
+        Set<Role> roleSet = new HashSet<>();
+        roles.forEach(eRole -> {
+            Optional<Role> optionalRole = roleRepository.findByName(eRole);
+            optionalRole.ifPresent(roleSet::add);
+        });
+        return roleSet;
     }
 }
