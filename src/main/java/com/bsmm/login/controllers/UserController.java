@@ -25,6 +25,12 @@ public class UserController {
         return ResponseEntity.ok(userService.authenticateUser(loginRequest));
     }
 
+    @PostMapping("/auth/sign-in")
+    public ResponseEntity<LoginResponse> refreshToken(@RequestHeader("Autorization") String token) {
+        return ResponseEntity.ok(userService.refreshToken(token));
+    }
+
+
     @PostMapping("/auth/sign-out")
     public ResponseEntity<Void> logoutUser(@RequestHeader("Autorization") String token) {
         userService.logoutUser(token);

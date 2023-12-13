@@ -2,7 +2,6 @@ package com.bsmm.login.service.impl;
 
 import com.bsmm.login.config.JwtUtils;
 import com.bsmm.login.models.User;
-import com.bsmm.login.repository.RoleRepository;
 import com.bsmm.login.repository.UserRepository;
 import com.bsmm.login.service.UserService;
 import com.bsmm.login.service.dto.LoginRequest;
@@ -29,9 +28,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
     private final AuthenticationManager authenticationManager;
+    private final UserDetailsServiceImpl userDetailsService;
     private final JwtUtils jwtUtils;
 
     @Override
@@ -40,6 +39,13 @@ public class UserServiceImpl implements UserService {
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        return jwtUtils.getResponse(userDetails);
+    }
+
+    @Override
+    public LoginResponse refreshToken(String token) {
+        jwtUtils.validateJwtToken(token);
+        UserDetailsImpl userDetails = userDetailsService.loadUserByUsername(jwtUtils.getUserNameFromJwtToken(token));
         return jwtUtils.getResponse(userDetails);
     }
 
