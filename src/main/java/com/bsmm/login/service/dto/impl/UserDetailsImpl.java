@@ -1,4 +1,4 @@
-package com.bsmm.login.service;
+package com.bsmm.login.service.dto.impl;
 
 import com.bsmm.login.models.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;

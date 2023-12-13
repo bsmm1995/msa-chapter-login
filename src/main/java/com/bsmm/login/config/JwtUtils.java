@@ -1,6 +1,6 @@
 package com.bsmm.login.config;
 
-import com.bsmm.login.service.UserDetailsImpl;
+import com.bsmm.login.service.dto.impl.UserDetailsImpl;
 import com.bsmm.login.service.dto.LoginResponse;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;

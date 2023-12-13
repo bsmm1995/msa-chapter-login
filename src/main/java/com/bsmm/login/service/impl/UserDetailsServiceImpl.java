@@ -1,7 +1,8 @@
-package com.bsmm.login.service;
+package com.bsmm.login.service.impl;
 
 import com.bsmm.login.models.User;
 import com.bsmm.login.repository.UserRepository;
+import com.bsmm.login.service.dto.impl.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

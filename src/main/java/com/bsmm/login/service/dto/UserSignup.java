@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Data
-public class SignupRequest implements Serializable {
+public class UserSignup implements Serializable {
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;

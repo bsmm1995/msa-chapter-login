@@ -1,6 +1,6 @@
 package com.bsmm.login.config;
 
-import com.bsmm.login.service.UserDetailsServiceImpl;
+import com.bsmm.login.service.impl.UserDetailsServiceImpl;
 import io.micrometer.common.lang.NonNull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
