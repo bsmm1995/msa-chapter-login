@@ -1,8 +1,5 @@
 package com.bsmm.login.config;
 
-import com.bsmm.login.security.AuthEntryPointJwt;
-import com.bsmm.login.security.AuthTokenFilter;
-import com.bsmm.login.security.JwtUtils;
 import com.bsmm.login.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
