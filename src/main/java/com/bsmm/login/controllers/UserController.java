@@ -26,12 +26,12 @@ public class UserController {
     }
 
     @PostMapping("/auth/refresh-token")
-    public ResponseEntity<LoginResponse> refreshToken(@RequestHeader("Autorization") String token) {
+    public ResponseEntity<LoginResponse> refreshToken(@RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(userService.refreshToken(token));
     }
 
     @PostMapping("/auth/sign-out")
-    public ResponseEntity<Void> logoutUser(@RequestHeader("Autorization") String token) {
+    public ResponseEntity<Void> logoutUser(@RequestHeader("Authorization") String token) {
         userService.logoutUser(token);
         return ResponseEntity.noContent().build();
     }

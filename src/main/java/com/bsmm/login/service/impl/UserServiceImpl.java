@@ -44,7 +44,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public LoginResponse refreshToken(String token) {
-        jwtUtils.validateJwtToken(token);
+        if (!jwtUtils.validateJwtToken(token)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Toekn caucado");
+        }
         UserDetailsImpl userDetails = userDetailsService.loadUserByUsername(jwtUtils.getUserNameFromJwtToken(token));
         return jwtUtils.getResponse(userDetails);
     }
