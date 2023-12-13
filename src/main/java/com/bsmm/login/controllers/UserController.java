@@ -30,7 +30,6 @@ public class UserController {
         return ResponseEntity.ok(userService.refreshToken(token));
     }
 
-
     @PostMapping("/auth/sign-out")
     public ResponseEntity<Void> logoutUser(@RequestHeader("Autorization") String token) {
         userService.logoutUser(token);
@@ -42,7 +41,6 @@ public class UserController {
     public ResponseEntity<UserDTO> create(@RequestBody @Valid UserSignup dto) {
         return ResponseEntity.ok(userService.create(dto));
     }
-
 
     @GetMapping("/users")
     @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
