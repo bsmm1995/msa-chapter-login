@@ -1,7 +1,7 @@
 package com.bsmm.login.config;
 
-import com.bsmm.login.service.dto.impl.UserDetailsImpl;
 import com.bsmm.login.service.dto.LoginResponse;
+import com.bsmm.login.service.dto.impl.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -27,6 +27,7 @@ public class JwtUtils {
     private int expirationRefreshToken;
 
     public String getUserNameFromJwtToken(String token) {
+        token = token.replace("Bearer ", "");
         return Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJws(token).getBody().getSubject();
     }
 
