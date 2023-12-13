@@ -25,7 +25,7 @@ public class UserController {
         return ResponseEntity.ok(userService.authenticateUser(loginRequest));
     }
 
-    @PostMapping("/auth/sign-in")
+    @PostMapping("/auth/refresh-token")
     public ResponseEntity<LoginResponse> refreshToken(@RequestHeader("Autorization") String token) {
         return ResponseEntity.ok(userService.refreshToken(token));
     }
