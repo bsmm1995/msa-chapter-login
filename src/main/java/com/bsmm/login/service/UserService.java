@@ -10,6 +10,8 @@ import java.util.List;
 public interface UserService {
     LoginResponse authenticateUser(LoginRequest loginRequest);
 
+    void logoutUser(String token);
+
     List<UserDTO> getAll();
 
     UserDTO create(UserSignup dto);

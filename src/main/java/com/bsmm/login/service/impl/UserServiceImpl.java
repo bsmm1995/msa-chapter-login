@@ -14,6 +14,7 @@ import com.bsmm.login.service.dto.UserSignup;
 import com.bsmm.login.service.dto.impl.UserDetailsImpl;
 import com.bsmm.login.service.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,6 +28,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -43,6 +45,11 @@ public class UserServiceImpl implements UserService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         return jwtUtils.getResponse(userDetails);
+    }
+
+    @Override
+    public void logoutUser(String token) {
+        log.info("Eliminar session desde REDIS");
     }
 
     @Override
