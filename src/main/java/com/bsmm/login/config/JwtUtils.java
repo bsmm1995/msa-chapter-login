@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -30,6 +31,12 @@ public class JwtUtils {
         token = token.replace("Bearer ", "");
         return Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJws(token).getBody().getSubject();
     }
+
+    public String getClaimId(String token) {
+        token = token.replace("Bearer ", "");
+        return Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJws(token).getBody().getId();
+    }
+
 
     private Key key() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
@@ -54,7 +61,14 @@ public class JwtUtils {
 
     private String generateToken(UserDetailsImpl details, long expiration) {
         List<String> roles = details.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
-        return Jwts.builder().setSubject(details.getUsername()).claim("email", details.getEmail()).claim("name", details.getUsername()).claim("roles", roles).setIssuer("issuer").setIssuedAt(new Date()).setExpiration(new Date(expiration)).signWith(key(), SignatureAlgorithm.HS256).compact();
+        return Jwts.builder().setSubject(details.getUsername())
+                .claim("email", details.getEmail())
+                .claim("name", details.getUsername())
+                .claim("roles", roles)
+                .setId(UUID.randomUUID().toString())
+                .setIssuer("issuer")
+                .setIssuedAt(new Date()).setExpiration(new Date(expiration))
+                .signWith(key(), SignatureAlgorithm.HS256).compact();
     }
 
     public LoginResponse getResponse(UserDetailsImpl details) {
