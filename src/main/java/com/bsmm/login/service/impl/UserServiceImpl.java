@@ -6,6 +6,7 @@ import com.bsmm.login.models.User;
 import com.bsmm.login.models.enums.ERole;
 import com.bsmm.login.repository.RoleRepository;
 import com.bsmm.login.repository.UserRepository;
+import com.bsmm.login.service.RedisService;
 import com.bsmm.login.service.UserService;
 import com.bsmm.login.service.dto.LoginRequest;
 import com.bsmm.login.service.dto.LoginResponse;
@@ -38,6 +39,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder encoder;
     private final AuthenticationManager authenticationManager;
     private final UserDetailsServiceImpl userDetailsService;
+    private final RedisService redisService;
     private final JwtUtils jwtUtils;
 
     @Override
@@ -46,7 +48,9 @@ public class UserServiceImpl implements UserService {
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        return jwtUtils.getResponse(userDetails);
+        LoginResponse loginResponse = jwtUtils.getResponse(userDetails);
+        redisService.saveSession(loginResponse);
+        return loginResponse;
     }
 
     @Override

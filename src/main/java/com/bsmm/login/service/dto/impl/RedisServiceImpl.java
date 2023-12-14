@@ -14,13 +14,13 @@ public class RedisServiceImpl implements RedisService {
     private final JwtUtils jwtUtils;
 
     @Override
-    public void saveSession(String key, LoginResponse data) {
-        redisTemplate.opsForValue().set(key, data);
+    public void saveSession(LoginResponse data) {
+        redisTemplate.opsForValue().set(jwtUtils.getClaimId(data.getAccessToken()), data);
     }
 
     @Override
-    public void deleteSession(String key) {
-        redisTemplate.delete(key);
+    public void deleteSession(String token) {
+        redisTemplate.delete(jwtUtils.getClaimId(token));
     }
 
     @Override

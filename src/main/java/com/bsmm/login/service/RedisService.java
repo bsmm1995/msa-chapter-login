@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface RedisService {
-    void saveSession(String key, LoginResponse data);
+    void saveSession(LoginResponse data);
 
     void deleteSession(String key);
 
