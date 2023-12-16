@@ -14,8 +14,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = "username"),
-                @UniqueConstraint(columnNames = "email")
+                @UniqueConstraint(columnNames = "username")
         })
 public class User implements Serializable {
     @Id
@@ -23,16 +22,17 @@ public class User implements Serializable {
     Long id;
 
     @NotBlank
-    @Size(max = 20)
-    String username;
+    @Size(max = 150)
+    @Column(nullable = false, name = "FULL_NAME")
+    String fullName;
 
     @NotBlank
     @Size(max = 50)
     @Email
-    String email;
+    String username;
 
     @NotBlank
-    @Size(max = 120)
+    @Size(max = 255)
     String password;
 
     @Column(nullable = false, name = "IS_ACTIVE", columnDefinition = "boolean default true")

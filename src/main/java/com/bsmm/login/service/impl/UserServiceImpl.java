@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public LoginResponse refreshToken(String token) {
         if (!jwtUtils.validateJwtToken(token)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Toekn caucado");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token caducado");
         }
         UserDetailsImpl userDetails = userDetailsService.loadUserByUsername(jwtUtils.getUserNameFromJwtToken(token));
         return jwtUtils.getResponse(userDetails);
@@ -76,10 +76,6 @@ public class UserServiceImpl implements UserService {
     public UserDTO create(UserSignup dto) {
         if (Boolean.TRUE.equals(userRepository.existsByUsername(dto.getUsername()))) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error: Username is already taken!");
-        }
-
-        if (Boolean.TRUE.equals(userRepository.existsByEmail(dto.getEmail()))) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error: Email is already in use!");
         }
 
         User user = UserMapper.INSTANCE.toEntity(dto);

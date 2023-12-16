@@ -1,9 +1,9 @@
-INSERT INTO USERS (username, email, password, IS_ACTIVE)
-VALUES ('admin', 'admin@gmail.com', '$2a$10$PRex3hFH8n.1sZByoZFDhuBvZga.npk2vK4ztvI0pyhCiEFaSTzCG', true);
+INSERT INTO USERS (FULL_NAME, USERNAME, PASSWORD, IS_ACTIVE)
+VALUES ('Admin', 'admin@gmail.com', '$2a$10$PRex3hFH8n.1sZByoZFDhuBvZga.npk2vK4ztvI0pyhCiEFaSTzCG', true);
 
-INSERT INTO ROLES (name)
+INSERT INTO ROLES (NAME)
 VALUES ('ROLE_ADMIN'),
        ('ROLE_USER');
 
-INSERT INTO USER_ROLES (user_id, role_id)
+INSERT INTO USER_ROLES (USER_ID, ROLE_ID)
 VALUES (1, 1);

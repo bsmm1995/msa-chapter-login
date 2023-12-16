@@ -13,7 +13,7 @@ import java.util.Set;
 public class UserDTO implements Serializable {
     private Long id;
     private String username;
-    private String email;
+    private String fullName;
     private Set<String> roles;
     private Boolean isActive;
 }

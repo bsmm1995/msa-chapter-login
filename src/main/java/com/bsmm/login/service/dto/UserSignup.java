@@ -10,19 +10,19 @@ import java.util.Set;
 @Data
 public class UserSignup implements Serializable {
     @NotBlank
-    @Size(min = 3, max = 20)
-    private String username;
+    @Size(max = 150)
+    private String fullName;
 
     @NotBlank
-    @Size(max = 50)
     @Email
-    private String email;
+    @Size(min = 5, max = 50)
+    private String username;
 
     @NotNull
     @NotEmpty
     private Set<ERole> roles;
 
     @NotBlank
-    @Size(min = 6, max = 40)
+    @Size(min = 8, max = 25)
     private String password;
 }

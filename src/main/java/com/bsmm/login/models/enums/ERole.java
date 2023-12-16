@@ -1,6 +1,8 @@
 package com.bsmm.login.models.enums;
 
-public enum ERole {
+import java.io.Serializable;
+
+public enum ERole implements Serializable {
     ROLE_USER,
     ROLE_ADMIN
 }
