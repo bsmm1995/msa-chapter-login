@@ -10,19 +10,13 @@ import java.util.Collection;
 import java.util.List;
 
 public class UserDetailsImpl implements UserDetails {
-    private Long id;
-
     private final String username;
-
     @Getter
     private String email;
-
     private final String password;
-
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Long id, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
-        this.id = id;
+    public UserDetailsImpl(String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -35,7 +29,6 @@ public class UserDetailsImpl implements UserDetails {
                 .toList();
 
         return new UserDetailsImpl(
-                user.getId(),
                 user.getUsername(),
                 user.getFullName(),
                 user.getPassword(),

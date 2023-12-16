@@ -1,4 +1,4 @@
-package com.bsmm.login.service.dto.impl;
+package com.bsmm.login.service.impl;
 
 import com.bsmm.login.config.JwtUtils;
 import com.bsmm.login.service.RedisService;
