@@ -1,6 +1,7 @@
 package com.bsmm.login.service.dto;
 
 import com.bsmm.login.models.enums.ERole;
+import com.bsmm.login.util.Constants;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -24,5 +25,6 @@ public class UserSignup implements Serializable {
 
     @NotBlank
     @Size(min = 8, max = 25)
+    @Pattern(regexp = Constants.COMPLEX_PASSWORD_REGEX)
     private String password;
 }

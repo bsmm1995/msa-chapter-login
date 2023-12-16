@@ -9,4 +9,5 @@ public class Constants {
     public static final String CLAIM_EMAIL = "email";
     public static final String CLAIM_NAME = "name";
     public static final String CLAIM_ROLES = "roles";
+    public static final String COMPLEX_PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=-_])(?=\\S+$).{8,25}$";
 }
