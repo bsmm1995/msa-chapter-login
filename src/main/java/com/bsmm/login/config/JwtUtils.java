@@ -2,6 +2,7 @@ package com.bsmm.login.config;
 
 import com.bsmm.login.service.dto.LoginResponse;
 import com.bsmm.login.service.dto.impl.UserDetailsImpl;
+import com.bsmm.login.util.Constants;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -28,24 +29,20 @@ public class JwtUtils {
     private int expirationRefreshToken;
 
     public String getUserNameFromJwtToken(String token) {
-        token = token.replace("Bearer ", "");
-        return Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJws(depureToken(token)).getBody().getSubject();
     }
 
     public String getClaimId(String token) {
-        token = token.replace("Bearer ", "");
-        return Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJws(token).getBody().getId();
+        return Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJws(depureToken(token)).getBody().getId();
     }
-
 
     private Key key() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
-    public boolean validateJwtToken(String authToken) {
+    public boolean validateJwtToken(String token) {
         try {
-            authToken = authToken.replace("Bearer ", "");
-            Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJws(authToken);
+            Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJws(depureToken(token));
             return true;
         } catch (MalformedJwtException e) {
             log.error("Invalid JWT token: {}", e.getMessage());
@@ -62,17 +59,26 @@ public class JwtUtils {
     private String generateToken(UserDetailsImpl details, long expiration) {
         List<String> roles = details.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
         return Jwts.builder().setSubject(details.getUsername())
-                .claim("email", details.getEmail())
-                .claim("name", details.getUsername())
-                .claim("roles", roles)
+                .claim(Constants.CLAIM_EMAIL, details.getEmail())
+                .claim(Constants.CLAIM_NAME, details.getUsername())
+                .claim(Constants.CLAIM_ROLES, roles)
                 .setId(UUID.randomUUID().toString())
-                .setIssuer("issuer")
                 .setIssuedAt(new Date()).setExpiration(new Date(expiration))
                 .signWith(key(), SignatureAlgorithm.HS256).compact();
     }
 
+    private String depureToken(String token) {
+        if (token == null) {
+            return null;
+        }
+        return token.replace(Constants.TOKEN_TYPE_WITH_SPACE, "");
+    }
     public LoginResponse getResponse(UserDetailsImpl details) {
         long expirationAT = System.currentTimeMillis() + expirationAccessToken;
-        return LoginResponse.builder().tokenType("Bearer").accessToken(generateToken(details, expirationAT)).refreshToken(generateToken(details, System.currentTimeMillis() + expirationRefreshToken)).expires(expirationAT).build();
+        return LoginResponse.builder().tokenType(Constants.TOKEN_TYPE)
+                .accessToken(generateToken(details, expirationAT))
+                .refreshToken(generateToken(details, System.currentTimeMillis() + expirationRefreshToken))
+                .expires(expirationAT)
+                .build();
     }
 }
